@@ -3,13 +3,20 @@
 import { expect, it } from "vitest";
 import { z } from "zod";
 
-const MenuItem = z.object({
+
+interface MenuItemType  {
+  link : string
+  label :string
+  children? : MenuItemType[]
+}
+
+const MenuItem : z.ZodType<MenuItemType> = z.lazy(()=>z.object({
   //             ^ 🕵️‍♂️
   link: z.string(),
   label: z.string(),
   children: z.array(MenuItem).default([]),
-});
-
+})
+)
 // TESTS
 
 it("Should succeed when it encounters a correct structure", async () => {
